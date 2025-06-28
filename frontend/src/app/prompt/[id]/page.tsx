@@ -41,7 +41,7 @@ export default function PromptDetail() {
     // Fetch prompt data from API
     const fetchPrompt = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/prompts/${promptId}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${promptId}`);
         if (response.ok) {
           const data = await response.json();
           setPrompt({
@@ -77,7 +77,7 @@ export default function PromptDetail() {
   const handleLike = async () => {
     if (prompt) {
       try {
-        const response = await fetch(`http://localhost:3000/prompts/${prompt.id}/like`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${prompt.id}/like`, {
           method: 'POST',
         });
         
@@ -119,7 +119,7 @@ export default function PromptDetail() {
             </svg>
           </div>
           <h2 className="text-3xl font-bold text-white mb-3">Prompt Not Found</h2>
-          <p className="text-purple-200 mb-6 text-lg">The prompt you're looking for doesn't exist.</p>
+          <p className="text-purple-200 mb-6 text-lg">The prompt you&apos;re looking for doesn&apos;t exist.</p>
           <button
             onClick={() => router.push('/dashboard')}
             className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-xl hover:shadow-2xl hover:scale-105 transform"

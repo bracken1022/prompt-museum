@@ -99,7 +99,7 @@ export default function NewPrompt() {
         is_public: formData.is_public,
       };
 
-      const response = await authUtils.fetchWithAuth('http://localhost:3000/prompts', {
+      const response = await authUtils.fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/prompts`, {
         method: 'POST',
         body: JSON.stringify(payload),
       });
@@ -114,7 +114,7 @@ export default function NewPrompt() {
       } else {
         setMessage(result.message || 'Failed to create prompt');
       }
-    } catch (error) {
+    } catch {
       setMessage('Failed to connect to server');
     } finally {
       setIsLoading(false);

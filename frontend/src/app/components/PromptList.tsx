@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Prompt {
@@ -34,7 +34,7 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
   const router = useRouter();
 
   // Fetch prompts from API
-  const fetchPrompts = async () => {
+  const fetchPrompts = useCallback(async () => {
     try {
       setIsLoading(true);
       const params = new URLSearchParams();
@@ -42,10 +42,10 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
       if (selectedCategory !== 'all') params.append('category', selectedCategory);
       if (searchTerm) params.append('search', searchTerm);
 
-      const response = await fetch(`http://localhost:3000/prompts?${params}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts?${params}`);
       if (response.ok) {
         const data = await response.json();
-        setPrompts(data.map((prompt: any) => ({
+        setPrompts(data.map((prompt: Prompt) => ({
           ...prompt,
           isLiked: false // TODO: Implement user-specific likes
         })));
@@ -55,12 +55,12 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedAgent, selectedCategory, searchTerm]);
 
   // Fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:3000/prompts/categories');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategories(['all', ...data]);
@@ -73,7 +73,7 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
   // Load data on component mount and when filters change
   useEffect(() => {
     fetchPrompts();
-  }, [selectedAgent, selectedCategory, searchTerm]);
+  }, [fetchPrompts]);
 
   useEffect(() => {
     fetchCategories();
@@ -81,7 +81,7 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
 
   const handleLike = async (promptId: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/prompts/${promptId}/like`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${promptId}/like`, {
         method: 'POST',
       });
       

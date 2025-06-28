@@ -44,7 +44,7 @@ export default function Home() {
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password };
 
-      const response = await fetch(`http://localhost:3000/auth/${endpoint}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function Home() {
       } else {
         setMessage(result.message || 'An error occurred');
       }
-    } catch (error) {
+    } catch {
       setMessage('Failed to connect to server');
     }
   };
@@ -83,7 +83,7 @@ export default function Home() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/auth/forgot-password', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export default function Home() {
 
       const result = await response.json();
       setMessage(result.message || 'Password reset request sent');
-    } catch (error) {
+    } catch {
       setMessage('Failed to connect to server');
     }
   };
