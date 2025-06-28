@@ -16,7 +16,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      type: process.env.DATABASE_URL ? 'postgres' : 'mysql',
+      type: (process.env.DB_TYPE as 'postgres' | 'mysql') || (process.env.DATABASE_URL ? 'postgres' : 'mysql'),
       url: process.env.DATABASE_URL, // For PostgreSQL (Render)
       host: process.env.DATABASE_URL ? undefined : (process.env.DB_HOST || 'localhost'),
       port: process.env.DATABASE_URL ? undefined : parseInt(process.env.DB_PORT || '3306'),
