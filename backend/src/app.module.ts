@@ -16,15 +16,17 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '3306'),
-      username: process.env.DB_USERNAME || 'prompt_user',
-      password: process.env.DB_PASSWORD || 'prompt_password',
-      database: process.env.DB_DATABASE || 'prompt_museum',
+      type: process.env.DATABASE_URL ? 'postgres' : 'mysql',
+      url: process.env.DATABASE_URL, // For PostgreSQL (Render)
+      host: process.env.DATABASE_URL ? undefined : (process.env.DB_HOST || 'localhost'),
+      port: process.env.DATABASE_URL ? undefined : parseInt(process.env.DB_PORT || '3306'),
+      username: process.env.DATABASE_URL ? undefined : (process.env.DB_USERNAME || 'prompt_user'),
+      password: process.env.DATABASE_URL ? undefined : (process.env.DB_PASSWORD || 'prompt_password'),
+      database: process.env.DATABASE_URL ? undefined : (process.env.DB_DATABASE || 'prompt_museum'),
       entities: [User, Prompt],
-      synchronize: true, // Only for development
-      logging: true,
+      synchronize: process.env.NODE_ENV !== 'production', // Only for development
+      logging: process.env.NODE_ENV !== 'production',
+      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
     AuthModule,
     PromptsModule,
