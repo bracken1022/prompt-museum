@@ -1,0 +1,19 @@
+# Ignore everything except backend
+*
+!backend/
+
+# But ignore these in backend
+backend/node_modules
+backend/dist
+backend/.env
+backend/coverage
+backend/.nyc_output
+
+# Ignore other directories
+frontend/
+.git/
+.gitignore
+README.md
+docker-compose.yml
+deploy-guide.md
+*.md
