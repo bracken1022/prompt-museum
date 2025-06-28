@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: prompt-museum-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && yarn install && yarn build
+    startCommand: cd backend && yarn start:prod
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+
+databases:
+  - name: prompt-museum-db
+    plan: free
