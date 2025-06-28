@@ -41,7 +41,8 @@ export default function PromptDetail() {
     // Fetch prompt data from API
     const fetchPrompt = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${promptId}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const response = await fetch(`${apiUrl}/prompts/${promptId}`);
         if (response.ok) {
           const data = await response.json();
           setPrompt({
@@ -77,7 +78,8 @@ export default function PromptDetail() {
   const handleLike = async () => {
     if (prompt) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/prompts/${prompt.id}/like`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const response = await fetch(`${apiUrl}/prompts/${prompt.id}/like`, {
           method: 'POST',
         });
         

@@ -99,7 +99,8 @@ export default function NewPrompt() {
         is_public: formData.is_public,
       };
 
-      const response = await authUtils.fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/prompts`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      const response = await authUtils.fetchWithAuth(`${apiUrl}/prompts`, {
         method: 'POST',
         body: JSON.stringify(payload),
       });
