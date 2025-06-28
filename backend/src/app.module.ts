@@ -16,15 +16,19 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      type: (process.env.DB_TYPE as 'postgres' | 'mysql') || (process.env.DATABASE_URL ? 'postgres' : 'mysql'),
-      url: process.env.DATABASE_URL, // For PostgreSQL (Render)
-      host: process.env.DATABASE_URL ? undefined : (process.env.DB_HOST || 'localhost'),
-      port: process.env.DATABASE_URL ? undefined : parseInt(process.env.DB_PORT || '3306'),
-      username: process.env.DATABASE_URL ? undefined : (process.env.DB_USERNAME || 'prompt_user'),
-      password: process.env.DATABASE_URL ? undefined : (process.env.DB_PASSWORD || 'prompt_password'),
-      database: process.env.DATABASE_URL ? undefined : (process.env.DB_DATABASE || 'prompt_museum'),
+      type: process.env.DATABASE_URL?.startsWith('postgres') 
+        ? 'postgres' 
+        : process.env.DATABASE_URL?.startsWith('mysql') 
+          ? 'mysql' 
+          : (process.env.MYSQL_URL ? 'mysql' : 'mysql'), // Default to MySQL
+      url: process.env.DATABASE_URL || process.env.MYSQL_URL,
+      host: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_HOST || process.env.MYSQLHOST || 'localhost'),
+      port: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : parseInt(process.env.DB_PORT || process.env.MYSQLPORT || '3306'),
+      username: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_USERNAME || process.env.MYSQLUSER || 'prompt_user'),
+      password: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || 'prompt_password'),
+      database: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_DATABASE || process.env.MYSQLDATABASE || 'prompt_museum'),
       entities: [User, Prompt],
-      synchronize: process.env.NODE_ENV !== 'production', // Only for development
+      synchronize: process.env.NODE_ENV !== 'production',
       logging: process.env.NODE_ENV !== 'production',
       ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),
