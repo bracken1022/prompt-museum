@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Production URLs
+- Frontend: https://prompt-museum.vercel.app
+- Backend API: https://prompt-museum-backend-production.up.railway.app
+
 ## Getting Started
 
 First, run the development server:
