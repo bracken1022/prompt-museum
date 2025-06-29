@@ -28,7 +28,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
       password: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || 'prompt_password'),
       database: (process.env.DATABASE_URL || process.env.MYSQL_URL) ? undefined : (process.env.DB_DATABASE || process.env.MYSQLDATABASE || 'prompt_museum'),
       entities: [User, Prompt],
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true, // Enable for initial table creation
       logging: process.env.NODE_ENV !== 'production',
       ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     }),

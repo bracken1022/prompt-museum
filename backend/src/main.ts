@@ -30,5 +30,7 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 Backend running on port ${port}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`💾 Database URL: ${process.env.DATABASE_URL ? 'Set' : 'Not set'}`);
+  console.log(`💾 MySQL URL: ${process.env.MYSQL_URL ? 'Set' : 'Not set'}`);
 }
 bootstrap();
