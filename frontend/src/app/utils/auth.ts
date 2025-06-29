@@ -55,6 +55,7 @@ export const authUtils = {
     return fetch(url, {
       ...options,
       headers,
+      credentials: 'include',
     });
   },
 };

@@ -43,7 +43,9 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
       if (searchTerm) params.append('search', searchTerm);
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-      const response = await fetch(`${apiUrl}/prompts?${params}`);
+      const response = await fetch(`${apiUrl}/prompts?${params}`, {
+        credentials: 'include'
+      });
       if (response.ok) {
         const data = await response.json();
         setPrompts(data.map((prompt: Prompt) => ({
@@ -62,7 +64,9 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
   const fetchCategories = async () => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-      const response = await fetch(`${apiUrl}/prompts/categories`);
+      const response = await fetch(`${apiUrl}/prompts/categories`, {
+        credentials: 'include'
+      });
       if (response.ok) {
         const data = await response.json();
         setCategories(['all', ...data]);
@@ -86,6 +90,7 @@ export default function PromptList({ selectedAgent }: PromptListProps) {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
       const response = await fetch(`${apiUrl}/prompts/${promptId}/like`, {
         method: 'POST',
+        credentials: 'include'
       });
       
       if (response.ok) {

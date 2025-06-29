@@ -50,6 +50,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(payload),
       });
 
@@ -90,6 +91,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ email: formData.email }),
       });
 

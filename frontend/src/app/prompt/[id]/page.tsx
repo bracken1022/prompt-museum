@@ -42,7 +42,9 @@ export default function PromptDetail() {
     const fetchPrompt = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-        const response = await fetch(`${apiUrl}/prompts/${promptId}`);
+        const response = await fetch(`${apiUrl}/prompts/${promptId}`, {
+          credentials: 'include'
+        });
         if (response.ok) {
           const data = await response.json();
           setPrompt({
@@ -81,6 +83,7 @@ export default function PromptDetail() {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
         const response = await fetch(`${apiUrl}/prompts/${prompt.id}/like`, {
           method: 'POST',
+          credentials: 'include'
         });
         
         if (response.ok) {
