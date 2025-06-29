@@ -6,7 +6,7 @@ async function bootstrap() {
   
   // Configure CORS for both development and production
   const corsOrigins = process.env.NODE_ENV === 'production' 
-    ? [process.env.CORS_ORIGIN || 'https://your-vercel-app.vercel.app']
+    ? [process.env.CORS_ORIGIN || 'https://prompt-museum.vercel.app']
     : ['http://localhost:3001', 'http://localhost:3000'];
     
   app.enableCors({
