@@ -20,6 +20,12 @@ export default function Home() {
     if (authUtils.isAuthenticated()) {
       router.push('/dashboard');
     }
+    
+    // Debug environment variables on mount
+    console.log('🔧 Environment Debug on Mount:');
+    console.log('NODE_ENV:', process.env.NODE_ENV);
+    console.log('NEXT_PUBLIC_API_URL:', process.env.NEXT_PUBLIC_API_URL);
+    console.log('All NEXT_PUBLIC vars:', Object.keys(process.env).filter(key => key.startsWith('NEXT_PUBLIC')));
   }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +51,15 @@ export default function Home() {
         : { name: formData.name, email: formData.email, password: formData.password };
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      
+      // Debug logs
+      console.log('🔍 Debug Info:');
+      console.log('Environment:', process.env.NODE_ENV);
+      console.log('NEXT_PUBLIC_API_URL env var:', process.env.NEXT_PUBLIC_API_URL);
+      console.log('Final API URL:', apiUrl);
+      console.log('Full endpoint:', `${apiUrl}/auth/${endpoint}`);
+      console.log('Payload:', payload);
+      
       const response = await fetch(`${apiUrl}/auth/${endpoint}`, {
         method: 'POST',
         headers: {
@@ -54,7 +69,11 @@ export default function Home() {
         body: JSON.stringify(payload),
       });
 
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
+      
       const result = await response.json();
+      console.log('📡 Response data:', result);
       
       if (result.success) {
         setMessage(`${isLogin ? 'Login' : 'Registration'} successful!`);
@@ -73,7 +92,8 @@ export default function Home() {
       } else {
         setMessage(result.message || 'An error occurred');
       }
-    } catch {
+    } catch (error) {
+      console.error('❌ Fetch error:', error);
       setMessage('Failed to connect to server');
     }
   };
@@ -97,7 +117,8 @@ export default function Home() {
 
       const result = await response.json();
       setMessage(result.message || 'Password reset request sent');
-    } catch {
+    } catch (error) {
+      console.error('❌ Forgot password error:', error);
       setMessage('Failed to connect to server');
     }
   };
